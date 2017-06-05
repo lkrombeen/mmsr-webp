@@ -5,11 +5,14 @@ export MAGICK_TMPDIR=./magicktemp
 for file in input/*
 do
   filename=$(basename $file | cut -d. -f1)
-  output=output/$filename/$filename.webp
+  output=output/$filename/$filename
   mkdir -p output/$filename
-  cwebp $file -lossless -quiet -o $output
-  inputsize=$(du --bytes $file | cut -f -1)
-  outputsize=$(du --bytes $output | cut -f -1)
-  diffsize=$(($inputsize-$outputsize))
-  echo $file has been compressed using webp by $(bc <<< "scale=2; (1.0-$outputsize/$inputsize)*100") percent
+  cwebp -quiet $file -lossless -o $output.webp
+  for format in jpg png bmp gif
+  do
+    for quality in 100 80 50
+    do
+      convert -quiet $file -quality $quality% $output-quality$quality.$format
+    done
+  done
 done
