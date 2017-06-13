@@ -14,16 +14,18 @@ class File():
 		file.diff = self.size - file.size
 		image_original = cv2.imread("input/" + self.name)
 		image_compressed = cv2.imread(dir_output + file.name)
-
 		file.error = self.compute_error(image_original, image_compressed)
 		self.compressed.append(file)
+		return file
 
 	def compute_error(self, image0, image1):
 		number_of_channels = np.shape(image0)[2]
 		total_error = 0
 		for channel_index in range(number_of_channels):
 			error = np.abs(image0[:,:,channel_index] - image1[:,:,channel_index])
-			total_error = total_error + (np.average(error)/(np.max(error) - np.min(error)))
+			maxmin = np.max(error) - np.min(error)
+			if (maxmin != 0):
+				total_error += (np.average(error)/maxmin)
 
 		return (total_error/number_of_channels)
 
