@@ -8,9 +8,10 @@ do
   output=output/$filename/$filename
   mkdir -p output/$filename
   cwebp -quiet $file -lossless -o $output.webp
-  for format in jpg png bmp gif
+  for quality in 100 80 50
   do
-    for quality in 100 80 50
+    cwebp -quiet $file -q $quality  -o $output-quality$quality.webp
+    for format in jpg png bmp gif
     do
       convert -quiet $file -quality $quality% $output-quality$quality.$format
     done
