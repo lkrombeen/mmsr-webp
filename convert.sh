@@ -11,7 +11,7 @@ do
   for quality in 100 80 50
   do
     cwebp -quiet $file -q $quality  -o $output-quality$quality.webp
-    for format in jpg png bmp gif
+    for format in jpg png bmp
     do
       convert -quiet $file -quality $quality% $output-quality$quality.$format
     done
