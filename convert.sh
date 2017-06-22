@@ -5,6 +5,7 @@ export MAGICK_TMPDIR=./magicktemp
 for file in input/*
 do
   filename=$(basename $file | cut -d. -f1)
+  echo $file
   output=output/$filename/$filename
   mkdir -p output/$filename
   cwebp -quiet $file -lossless -o $output.webp
